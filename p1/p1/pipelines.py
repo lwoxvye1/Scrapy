@@ -13,7 +13,7 @@ class P1Pipeline(object):
 
     # 需启用settings里的ITEM_PIPELINES=...
     def __init__(self):
-        self.f = open("test_pipeline.json", "wb")
+        self.f = open(r"D:\学习\python\Scrapy\p1\p1\test_pipeline.json", "wb")
 
     def process_item(self, item, spider):
         context = json.dumps(dict(item), ensure_ascii=False) + "\n"

@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import json
+from scrapy.exceptions import DropItem
 
 
 class P1Pipeline(object):
@@ -22,3 +23,17 @@ class P1Pipeline(object):
 
     def close_spider(self, spider):
         self.f.close()
+
+
+# 去掉重复姓名的数据
+class DuplicatesPipeline(object):
+    def __init__(self):
+        self.name_set = set()
+
+    def process_item(self, item, spider):
+        name = item['name']
+        if name in self.name_set:
+            raise DropItem("Duplicate book found: %s" % item)
+
+        self.name_set.add(name)
+        return item
